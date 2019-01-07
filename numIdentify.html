@@ -40,7 +40,7 @@
             canvas.backgroundColor = '#ffffff';
             canvas.isDrawingMode = 0;
             canvas.freeDrawingBrush.color = "black";
-            canvas.freeDrawingBrush.width = 16;
+            canvas.freeDrawingBrush.width = 15;
             canvas.renderAll();
             canvas.on('mouse:up', function (e) { getFrame(); mousePressed = false });
             canvas.on('mouse:down', function (e) { mousePressed = true });
@@ -161,8 +161,7 @@
                 const resized = tf.image.resizeBilinear(normalized, [28, 28])
                 const sliced = resized.slice([0, 0, 1], [28, 28, 1])
                 const batched = sliced.expandDims(0)
-                const changed = batched.reshape([1,28*28])
-                return changed
+                return batched
             })
         }
 
@@ -170,7 +169,7 @@
         async function loadModel() {
             model = await tf.loadModel('./model3/model.json')
             //warm up 
-            model.predict(tf.zeros([1, 28*28]))
+            model.predict(tf.zeros([1, 28, 28, 1]))
             allowDrawing()
             await loadDict()
         }
@@ -266,7 +265,7 @@
             <h4 id='status'>Loading Model... </h4>
             <canvas id="canvas" width="300" height="300" class="canvas" style="border:1px solid #b9bfc9;margin-top:25px;"></canvas>
             <div class="btn-group" style='margin-top:40px; '>
-                <input type="range" min="10" max="20" value="16" class="slider" id="myRange" style='margin-top:20px;'>
+                <input type="range" min="10" max="20" value="15" class="slider" id="myRange" style='margin-top:20px;'>
                 <button type="button" class="btn btn-outline-primary" onclick='erase()' style='margin-left:10px;'
                     disabled>Clear</button>
             </div>
