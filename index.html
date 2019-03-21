@@ -155,7 +155,7 @@
         function preprocess(imgData) {
             //document.getElementById('txt').innerHTML = tf.fromPixels(imgData).toFloat()
             return tf.tidy(() => {
-                const tensor = tf.fromPixels(imgData).toFloat()
+                const tensor = tf.browser.fromPixels(imgData).toFloat()
                 // Normalize the image 
                 const normalized = tf.scalar(1.0).sub(tensor.div(tf.scalar(255.0)));
                 const resized = tf.image.resizeBilinear(normalized, [28, 28])
@@ -167,7 +167,7 @@
 
         //load the model 
         async function loadModel() {
-            model = await tf.loadModel('./model/model.json')
+            model = await tf.loadLayersModel('./model/model.json')
             //warm up 
             model.predict(tf.zeros([1, 28, 28, 1]))
             allowDrawing()
